@@ -2,3 +2,4 @@ installations:
 
 networkx
 matplotlib
+numpy
