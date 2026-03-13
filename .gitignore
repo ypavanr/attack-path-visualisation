@@ -2,3 +2,4 @@ venv
 .env
 datasets/
 prepro_doc/
+node_modules
