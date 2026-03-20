@@ -16,11 +16,11 @@ export const getUserById = async (id) => {
 };
 
 export const createUser = async (userData) => {
-    const { username, email, password, full_name } = userData;
+    const { username, email, password, full_name, role } = userData;
 
     // Basic validation
-    if (!username || !email || !password) {
-        throw new Error("Username, email, and password are required");
+    if (!username || !email || !password || !role) {
+        throw new Error("Username, email, password, and role are required");
     }
 
     // Check if user already exists
@@ -44,7 +44,17 @@ export const createUser = async (userData) => {
         full_name
     };
 
-    return await userQueries.createUser(newUserData);
+    // Create the user in Supabase
+    const newUser = await userQueries.createUser(newUserData);
+
+    // Make sure the role exists for this new user
+    const roleObj = await userQueries.getOrCreateRole(role);
+
+    // Link the user to the role
+    await userQueries.linkUserRole(newUser.user_id, roleObj.role_id);
+
+    // Return the newly created user without password but including their role string
+    return { ...newUser, role: roleObj.role_name };
 };
 
 export const updateUser = async (id, userData) => {

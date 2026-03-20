@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CyberBackground } from './cyber-background';
+import { CyberBackgroundComponent } from './cyber-background';
 
 describe('CyberBackground', () => {
-  let component: CyberBackground;
-  let fixture: ComponentFixture<CyberBackground>;
+  let component: CyberBackgroundComponent;
+  let fixture: ComponentFixture<CyberBackgroundComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CyberBackground],
+      imports: [CyberBackgroundComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CyberBackground);
+    fixture = TestBed.createComponent(CyberBackgroundComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

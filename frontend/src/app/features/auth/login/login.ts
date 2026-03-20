@@ -15,12 +15,23 @@ export class LoginComponent {
   email = '';
   password = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   login() {
     console.log(this.email, this.password)
 
-    this.authService.login(this.email, this.password)
+    this.authService.login({
+      email: this.email,
+      password: this.password
+    }).subscribe({
+      next: (response) => {
+        console.log('Login successful!', response);
+        // inject the Router and navigate to a dashboard here
+      },
+      error: (err) => {
+        console.error('Login failed', err);
+      }
+    });
   }
 
 }

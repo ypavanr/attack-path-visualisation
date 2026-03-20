@@ -62,6 +62,42 @@ export const createUser = async (userData) => {
   return data;
 };
 
+// Get or Create Role
+export const getOrCreateRole = async (roleName) => {
+  let { data: roleData, error: roleError } = await supabase
+    .from('roles')
+    .select('*')
+    .eq('role_name', roleName)
+    .maybeSingle();
+
+  if (roleError) throw roleError;
+  
+  if (roleData) {
+    return roleData;
+  }
+
+  const { data: newRole, error: newRoleError } = await supabase
+    .from('roles')
+    .insert([{ role_name: roleName, description: 'Role created during registration' }])
+    .select()
+    .single();
+  
+  if (newRoleError) throw newRoleError;
+  return newRole;
+};
+
+// Link User to Role
+export const linkUserRole = async (userId, roleId) => {
+  const { data, error } = await supabase
+    .from('user_roles')
+    .insert([{ user_id: userId, role_id: roleId }])
+    .select()
+    .single();
+  
+  if (error) throw error;
+  return data;
+};
+
 // Update an existing user
 export const updateUser = async (id, userData) => {
   const { data, error } = await supabase
